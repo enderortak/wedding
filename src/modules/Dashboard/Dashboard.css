@@ -1,0 +1,77 @@
+.Dashboard{
+  width: 600px;
+  height: 520px;
+  display: inline-block;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-bottom: 3em;
+}
+.DashboardContent{
+  padding-top: 280px;
+  transform: rotate(1deg);
+}
+.DashboardContent img{
+  width: 80px;
+  position: absolute;
+  bottom: -30px;
+  right: 35px;
+}
+
+#Dashboard-Tasks{
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #ffce44;
+}
+
+#Dashboard-Tasks > div, #Dashboard-MeetingCeremonyDate > div, #Dashboard-EngagementCeremonyDate > div, #Dashboard-WeddingCeremonyDate > div{
+  background: rgba(0,0,0,0.2);
+  color: #FFFFFF;
+}
+#Dashboard-Tasks:hover{
+  background: #ffbf0f;
+}
+#Dashboard-Tasks:hover > div{
+  background: rgba(0,0,0,0.3);
+}
+#Dashboard-MeetingCeremonyDate > span, #Dashboard-EngagementCeremonyDate > span, #Dashboard-WeddingCeremonyDate > span{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+#Dashboard-Tasks, #Dashboard-MeetingCeremonyDate, #Dashboard-EngagementCeremonyDate, #Dashboard-WeddingCeremonyDate{
+  width: 250px;
+
+  justify-content: flex-start;
+}
+#Dashboard-MeetingCeremonyDate, #Dashboard-EngagementCeremonyDate, #Dashboard-WeddingCeremonyDate{
+  background: #ff9393;
+}
+#Dashboard-MeetingCeremonyDate{
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+#Dashboard-EngagementCeremonyDate{
+  position: absolute;
+  top: 40px;
+  right: 0;
+}
+#Dashboard-WeddingCeremonyDate{
+  position: absolute;
+  top: 80px;
+  right: 0;
+}
+
+@media only screen and (max-width: 600px) {
+  .Dashboard {
+      zoom: 0.5;
+  }
+  #Dashboard-Tasks , #Dashboard-MeetingCeremonyDate, #Dashboard-EngagementCeremonyDate, #Dashboard-WeddingCeremonyDate{
+    position: relative;
+    width: 250px;
+    top: auto;
+    right: auto;
+    margin-bottom: 1em;
+  }
+}

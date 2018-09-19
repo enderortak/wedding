@@ -1,0 +1,12 @@
+{ "_id": 1, "text": "Kız isteme töreni için tarih belirle", "month": "2018-08-01", "index": 0, "completed": false}
+{ "_id": 2, "text": "Nişan töreni için tarih belirle", "month": "2018-08-01", "index": 1, "completed": false}
+{ "_id": 3, "text": "Düğün için tarih belirle", "month": "2018-08-01", "index": 2, "completed": false}
+{ "_id": 4, "text": "Düğün sigortasını araştır", "month": "2018-09-01", "index": 0, "completed": false}
+{ "_id": 5, "text": "Nişan töreni için fotoğrafçı ayarla", "month": "2018-09-01", "index": 1, "completed": false}
+{ "_id": 6, "text": "Düğün için fotoğrafçı ve kameraman ayarla", "month": "2018-09-01", "index": 2, "completed": false}
+{ "_id": 7, "text": "Davetiye seç ve sipariş ver", "month": "2018-10-01", "index": 0, "completed": false}
+{ "_id": 8, "text": "Düğün için DJ ya da canlı performans ayarla", "month": "2018-10-01", "index": 1, "completed": false}
+{ "_id": 9, "text": "Gelinlik al", "month": "2018-10-01", "index": 2, "completed": false}
+{ "_id": 10, "text": "Damatlık al", "month": "2018-11-01", "index": 2, "completed": false}
+{ "_id": 11, "text": "Gelin çiçeğini seç ve sipariş et", "month": "2018-11-01", "index": 1, "completed": false}
+{ "_id": 12, "text": "Balayı için otel seç ve rezervasyon yap", "month": "2018-11-01", "index": 0, "completed": false}
