@@ -35,6 +35,11 @@ export default class FormDialog extends React.Component {
       });
       this.setState({ open: false });
   }
+  handleKeyPress = e => {
+    if (e.keyCode === 13) this.handleSave();
+    else if(e.keyCode === 27) this.handleClose();
+    else return;
+  }
   handleChange = e => this.setState({values: {...this.state.values, [e.target.name]: e.target.value}});
   render() {
     return (
@@ -56,6 +61,7 @@ export default class FormDialog extends React.Component {
           aria-labelledby="form-dialog-title"
           maxWidth="md"
           fullWidth
+          onKeyDown={this.handleKeyPress}
         >
           <DialogTitle id="form-dialog-title">Yeni Alt İş</DialogTitle>
           <DialogContent>

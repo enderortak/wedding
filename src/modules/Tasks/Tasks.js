@@ -14,6 +14,7 @@ const tasksSchema = {};
 months.forEach(month => tasksSchema[month] = []);
 
 
+
 class Tasks extends React.Component {
   state = {
     tasks: tasksSchema,
@@ -37,7 +38,18 @@ class Tasks extends React.Component {
   preProcess(tasks){
     const processedTasks = JSON.parse(tasks);
     Object.keys(processedTasks).forEach(month => {
-      processedTasks[month] = processedTasks[month].map(task => ({...task, id: _.uniqueId(), subtasks: task.subtasks.map(i => ({...i, id: _.uniqueId()}))}));
+      processedTasks[month] = 
+      processedTasks[month].map(
+        task => 
+        ({
+          ...task, 
+          id: _.uniqueId(month + "."),
+          subtasks: task.subtasks.map(i => ({
+            ...i,
+            id: _.uniqueId(month + "." + i.id + ".")
+          })
+        )}
+      ));
     });
     return processedTasks;
   }
@@ -53,18 +65,20 @@ class Tasks extends React.Component {
   }
   updateTasks(){
     api.fetch("task","POST", {tasks: JSON.stringify(this.state.tasks)})
+    console.log(this.state.tasks);
   }
   addTask(month, task){
-    this.setState({
-      ...this.state,
+    this.setState(state => {
+      const newList = [...state.tasks[month], task].map(i => ({...i, id: _.uniqueId(month + ".")}));
+      return ({
+      ...state,
       tasks: {
-        ...this.state.tasks,
-        [month]: [
-          ...this.state.tasks[month],
-          task,
-        ],
+        ...state.tasks,
+        [month]: newList,
       }
-    }, ()=> {this.updateTasks();});
+    })
+  },
+    ()=> {this.updateTasks();});
   }
   deleteTask(month, task){
     this.setState({
@@ -130,8 +144,8 @@ class Tasks extends React.Component {
         <div className="ui container">
           <h2 className="ui dividing header" style={{position: "relative"}}>
             Yapılacaklar
-            <AddTask addTask={this.addTask}/>
           </h2>
+          <AddTask addTask={this.addTask}/>
           { loading && <div>Yükleniyor</div>}
           { !loading && tasks && 
             <TaskList

@@ -1,5 +1,6 @@
 import { Checkbox, Collapse, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, ListSubheader, TextField, Typography } from "@material-ui/core";
 import { Edit as EditIcon, ExpandLess, ExpandMore, Save as SaveIcon } from "@material-ui/icons";
+import _ from "lodash";
 import propTypes from "prop-types";
 import React, { Component } from "react";
 import ApiService from "../../../service/ApiService";
@@ -73,7 +74,11 @@ class Task extends Component {
     };
     addSubtask = subtask => {
       this.setState(
-        state => ({...state, subtasks: [...state.subtasks, subtask]}),
+        state => {
+         const {month, task } = this.props;
+         const newList = [...state.subtasks, subtask].map(i => ({...i, id: _.uniqueId(month + "." + task.id + ".")}));
+         return ({...state, subtasks: newList});
+        },
         () => this.props.updateTask({...this.props.task, subtasks: this.state.subtasks})
       )
     }
@@ -117,7 +122,14 @@ class Task extends Component {
     handleChange = e => {
       this.setState({[e.target.name]: e.target.value.replace(/\n\r?/g, "<br />")}, () => console.log(this.state));
     }
-    
+    handleKeyPress = e => {
+      if (e.keyCode === 13) {
+        this.turnTitleEditModeOff();
+        this.updateTitle(this.state.text);
+      }
+      else if(e.keyCode === 27) this.cancelTitleUpdate(e);
+      else return;
+    }
 
     render() {
       const { task } = this.props;
@@ -146,6 +158,7 @@ class Task extends Component {
                 style={{ paddingLeft: "16px" }}
                 onBlur={this.handleTitleEditInputBlur}
                 onChange={this.handleChange}
+                onKeyDown={this.handleKeyPress}
               />
             ) : (
               <ListItemText primary={this.state.text} />
@@ -247,7 +260,7 @@ class Task extends Component {
                 disablePadding
               >
                 {
-                  subtasks.map(subtask => <Subtask subtask={subtask} updateSubtask={this.updateSubtask} deleteSubtask={this.deleteSubtask} />)
+                  subtasks.map(subtask => <Subtask subtask={subtask} updateSubtask={this.updateSubtask} deleteSubtask={this.deleteSubtask} key={subtask.id}/>)
                 }
               </List>
             }

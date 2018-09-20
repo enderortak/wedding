@@ -42,11 +42,16 @@ export default class FormDialog extends React.Component {
       });
       this.setState({ open: false });
   }
+  handleKeyPress = e => {
+    if (e.keyCode === 13) this.handleSave();
+    else if(e.keyCode === 27) this.handleClose();
+    else return;
+  }
   handleChange = e => this.setState({values: {...this.state.values, [e.target.name]: e.target.value}});
   render() {
     return (
-      <div style={{position: "absolute", right: "0", top: "-1rem"}}>
-        <Button variant="fab" color="secondary" aria-label="Add" mini onClick={this.handleClickOpen}>
+      <React.Fragment>
+        <Button variant="fab" color="secondary" aria-label="Add" onClick={this.handleClickOpen} style={{position: "fixed", bottom: "1rem", right: "1rem", zIndex: "2"}}>
           <AddIcon />
         </Button>
         <Dialog
@@ -55,6 +60,7 @@ export default class FormDialog extends React.Component {
           aria-labelledby="form-dialog-title"
           maxWidth="md"
           fullWidth
+          onKeyDown={this.handleKeyPress}
         >
           <DialogTitle id="form-dialog-title">Yeni Yapılcak İş</DialogTitle>
           <DialogContent>
@@ -85,7 +91,7 @@ export default class FormDialog extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-      </div>
+      </React.Fragment>
     );
   }
 }

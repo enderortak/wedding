@@ -48,6 +48,14 @@ export default class Subtask extends React.Component {
     if (!e.relatedTarget || e.relatedTarget.id !== `edit-save-subtask-title-button-${this.props.subtask.id}`)
       this.cancelTitleUpdate(e);
   }
+  handleKeyPress = e => {
+    if (e.keyCode === 13) {
+      this.turnTitleEditModeOff();
+      this.updateTitle(this.state.text);
+    }
+    else if(e.keyCode === 27) this.cancelTitleUpdate(e);
+    else return;
+  }
   handleChange = e => {
     this.setState({[e.target.name]: e.target.value}, () => console.log(this.state));
   }
@@ -66,6 +74,7 @@ export default class Subtask extends React.Component {
             style={{ paddingLeft: "16px" }}
             onChange={this.handleChange}
             onBlur={this.handleTitleEditInputBlur}
+            onKeyDown={this.handleKeyPress}
             inputProps={{ style: { fontSize: "0.9rem" } }}
           />
         ) : (
