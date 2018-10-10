@@ -4,10 +4,11 @@ import ApiService from "../../service/ApiService";
 import AddGuest from "./components/AddGuest";
 import GuestList from "./components/GuestList";
 const api = new ApiService();
-
+const numberOfTables = 6;
+const tables = [...Array(numberOfTables).keys()].map(i => ({text: window.secureMode ? "Sublist" : "Masa " + (i + 1), value: i}));
 class Guests extends React.Component {
   state = {
-    guests: [],
+    guests: tables.map(i =>[]),
     loading: false,
   }
   constructor(props){
@@ -17,7 +18,6 @@ class Guests extends React.Component {
     this.addGuest = this.addGuest.bind(this);
     this.deleteGuest = this.deleteGuest.bind(this);
     this.updateGuest = this.updateGuest.bind(this);
-    this.toggleConfirmation = this.toggleConfirmation.bind(this);
     this.reorder = this.reorder.bind(this);
     this.move = this.move.bind(this);
   }
@@ -26,12 +26,11 @@ class Guests extends React.Component {
     this.getGuests();    
   }
   preProcess(guests){
-    JSON.parse(guests).map((table, tableIndex) =>
+    return JSON.parse(guests).map((table, tableIndex) =>
       table.map(guest => 
         ({...guest, id: _.uniqueId("table_" + tableIndex + ".")})
       )
     )
-    return processedGuests;
   }
   getGuests() {
     this.setState({loading: true});
@@ -44,7 +43,7 @@ class Guests extends React.Component {
     });
   }
   saveGuests(){
-    api.fetch("guest","POST", {tasks: JSON.stringify(this.state.guests)})
+    api.fetch("guest","POST", {guests: JSON.stringify(this.state.guests)})
     console.log(this.state.guests);
   }
   addGuest(tableIndex, guest){
@@ -81,12 +80,14 @@ class Guests extends React.Component {
       this.saveGuests
     );
   }
-  reorder(tableIndex, oldIndex, newIndex) {      
+  reorder(tableIndex, oldIndex, newIndex) {
+    
       this.setState(
         state =>{
           const guestsClone = _.clone(state.guests);
-          const [moved] = guestsClone[tableIndex].splice(oldIndex, 1);
-          guestsClone[tableIndex].splice(newIndex, 0, moved);
+          const ind = tableIndex.split("_")[1];
+          const [moved] = guestsClone[ind].splice(oldIndex, 1);
+          guestsClone[ind].splice(newIndex, 0, moved);
           return { ...state, guests: guestsClone }
         },
         this.saveGuests
@@ -96,8 +97,10 @@ class Guests extends React.Component {
       this.setState(
         state => {
           const guestsClone = _.clone(state.guests);
-          const [moved] = guestsClone[sourceTableIndex].splice(droppableSource.index, 1);
-          guestsClone[destinationTableIndex].splice(droppableDestination.index, 0, moved);
+          const sInd = sourceTableIndex.split("_")[1];
+          const dInd = destinationTableIndex.split("_")[1];
+          const [moved] = guestsClone[sInd].splice(droppableSource.index, 1);
+          guestsClone[dInd].splice(droppableDestination.index, 0, moved);
           return { ...state, guests: guestsClone};
         },
         this.saveGuests
@@ -109,16 +112,15 @@ class Guests extends React.Component {
       <React.Fragment>
         <div className="ui container">
           <h2 className="ui dividing header" style={{position: "relative"}}>
-            Davetli listesi
+          {!window.secureMode ? "Davetli listesi" : "List"}
           </h2>
-          <AddGuest addGuest={this.addGuest}/>
+          <AddGuest addGuest={this.addGuest} tables={tables}/>
           { loading && <div>Yükleniyor</div>}
           { !loading && guests && 
             <GuestList
               guests={guests}
               deleteGuest={this.deleteGuest}
               updateGuest={this.updateGuest}
-              toggleConfirmation={this.toggleConfirmation}
               reorder={this.reorder}
               move={this.move}
             /> }

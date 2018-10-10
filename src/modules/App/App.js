@@ -9,9 +9,11 @@ import Dashboard from "../Dashboard/Dashboard";
 import NavBar from "../NavBar/NavBar";
 import "./../../shared/style/react-toastify.css";
 import Tasks from "./../Tasks/Tasks";
+import Guests from "./../Guests/Guests";
 import "./App.css";
 import Hero from "./components/Hero";
   
+window.secureMode = false;
 class App extends Component {
   state = { contentStyle: {},  bgStyle: {}}
   constructor(props){
@@ -40,12 +42,13 @@ handleScroll(event) {
     return (
       <BrowserRouter>    
       <div className="App">
-        <Hero contentStyle={this.state.contentStyle} bgStyle={this.state.bgStyle} />
-        <NavBar />
+        {!window.secureMode && <Hero contentStyle={this.state.contentStyle} bgStyle={this.state.bgStyle} /> }
+        {!window.secureMode && <NavBar />}
         <div id="content">
         <Switch>
             <Route path="/" exact component={Dashboard}/>
             <Route path="/tasks" component={Tasks}/>
+            <Route path="/guests" component={Guests}/>
         </Switch>
         </div>
         <ToastContainer />

@@ -1,8 +1,8 @@
 import React from "react";
 import NotificationService from "./NotificationService";
 
-// const APP_API_URL = "http://localhost:3031/api/v1";
-const APP_API_URL = "/api/v1";
+const APP_API_URL = "http://localhost:3031/api/v1";
+// const APP_API_URL = "/api/v1";
 
 export default class ApiService {
   constructor(apiUrl) {

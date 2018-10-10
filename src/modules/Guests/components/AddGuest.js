@@ -6,18 +6,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import AddIcon from '@material-ui/icons/Add';
-import moment from "moment";
-import "moment/locale/tr";
 import React from 'react';
 import ApiService from '../../../service/ApiService';
-import months from '../../../shared/months';
-moment.locale("tr");
 const api = new ApiService();
 
 export default class FormDialog extends React.Component {
   state = {
     open: false,
-    values: { text: "", table: 0},
+    values: { name: "", table: 0},
   };
   constructor(props){
     super(props);
@@ -35,8 +31,8 @@ export default class FormDialog extends React.Component {
   };
   handleSave = () => {
       this.props.addGuest(this.state.values.table, {
-        completed: false,
-        text: this.state.values.text,
+        confirmed: false,
+        name: this.state.values.name,
       });
       this.setState({ open: false });
   }
@@ -47,6 +43,7 @@ export default class FormDialog extends React.Component {
   }
   handleChange = e => this.setState({values: {...this.state.values, [e.target.name]: e.target.value}});
   render() {
+    const { tables } = this.props;
     return (
       <React.Fragment>
         <Button variant="fab" color="secondary" aria-label="Add" onClick={this.handleClickOpen} style={{position: "fixed", bottom: "1rem", right: "1rem", zIndex: "2"}}>
@@ -65,7 +62,7 @@ export default class FormDialog extends React.Component {
             <TextField
               autoFocus
               margin="dense"
-              name="text"
+              name="name"
               label="Davetli"
               fullWidth
               onChange={this.handleChange}
@@ -74,10 +71,10 @@ export default class FormDialog extends React.Component {
               value={this.state.values.table}
               onChange={this.handleChange}
               inputProps={{
-                name: 'month',
+                name: 'table',
               }}
             >
-              {months.map(month => <MenuItem value={month}>{moment(month).format("YYYY MMMM")}</MenuItem>)}
+              {tables.map(table => <MenuItem value={table.value}>{table.text}</MenuItem>)}
           </Select>
           </DialogContent>
           <DialogActions>
