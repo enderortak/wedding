@@ -4,7 +4,7 @@ import ApiService from "../../service/ApiService";
 import AddGuest from "./components/AddGuest";
 import GuestList from "./components/GuestList";
 const api = new ApiService();
-const numberOfTables = 6;
+const numberOfTables = 9;
 const tables = [...Array(numberOfTables).keys()].map(i => ({text: window.secureMode ? "Sublist" : "Masa " + (i + 1), value: i}));
 class Guests extends React.Component {
   state = {
